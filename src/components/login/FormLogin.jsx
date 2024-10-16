@@ -5,6 +5,7 @@ import { validateLogin } from "../../validators/login";
 import { useDispatch } from "react-redux";
 import { loginThunk } from "../../redux/api";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as Yup from 'yup';
 export default function FormLogin() {
   const [formData, setFormData] = useState({
@@ -50,6 +51,7 @@ export default function FormLogin() {
       <Button variant="primary" type="submit" >
         Log In
       </Button>
+      <Link to={'/register'}>Register</Link>
     </Form >
   )
 

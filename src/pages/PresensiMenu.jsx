@@ -62,7 +62,7 @@ export default function PresensiMenu() {
             foto_checkin: userPhoto.photo,
             latitude_checkin: location.latitude,
             longitude_checkin: location.longitude,
-            tanggal_checkin: DateTime.now().setZone('Asia/Jakarta').toISO(),
+            tanggal_checkin: DateTime.now().toUTC().toISO(),
           }
         ))
         handleClose();
@@ -78,7 +78,7 @@ export default function PresensiMenu() {
             foto_checkout: userPhoto.photo,
             latitude_checkout: location.latitude,
             longitude_checkout: location.longitude,
-            tanggal_checkout: DateTime.now().setZone('Asia/Jakarta').toISO(),
+            tanggal_checkout: DateTime.now().toUTC().toISO(),
           }
         ))
         handleClose();
@@ -86,7 +86,6 @@ export default function PresensiMenu() {
         console.log(error)
       }
     }
-
   }
   return (
     <Container>

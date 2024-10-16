@@ -18,14 +18,14 @@ export default function TablePresensi({ presensiHistory }) {
       <tbody>
         {presensiHistory.map((item, index) => (
           <tr key={item.id}>
-            <td>{index + 1}</td> {/* Nomor Urut */}
+            <td>{index + 1}</td>
             <td>{DateTime.fromISO(item.tanggal_checkin).toLocaleString(DateTime.DATETIME_MED)}</td>
-            <td>{DateTime.fromISO(item.tanggal_checkout).toLocaleString(DateTime.DATETIME_MED)}</td>
-            <td>{item.status}</td> {/* Status */}
-            <td>{item.alasan || '-'}</td> {/* Alasan */}
-            <td>{item.durasi_kerja || '-'}</td> {/* Durasi Kerja */}
-            <td>{item.verifikasi_checkin ? 'Terverifikasi' : 'Belum Terverifikasi'}</td> {/* Verifikasi Check-In */}
-            <td>{item.verifikasi_checkout ? 'Terverifikasi' : 'Belum Terverifikasi'}</td> {/* Verifikasi Check-Out */}
+            <td>{item.tanggal_checkout ? DateTime.fromISO(item.tanggal_checkout).toLocaleString(DateTime.DATETIME_MED) : '-'}</td>
+            <td>{item.status}</td>
+            <td>{item.alasan || '-'}</td>
+            <td>{item.durasi_kerja || '-'}</td>
+            <td>{item.verifikasi_checkin ? '✅' : '❌'}</td>
+            <td>{item.verifikasi_checkout ? '✅' : '❌'}</td>
             <td>
               <a href={`/staff/showPhoto/checkin/${item.id}`}
                 target="_blank" rel="noopener noreferrer">
@@ -40,7 +40,6 @@ export default function TablePresensi({ presensiHistory }) {
             </td>
           </tr>
         ))}
-
       </tbody>
     </Table>
   )

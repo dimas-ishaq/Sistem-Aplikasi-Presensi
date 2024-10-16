@@ -12,12 +12,13 @@ export const login = async (username, password) => {
   }
 }
 
-export const register = async (name, username, password) => {
+export const register = async (name, username, password, role) => {
   try {
     const response = await axiosInstance.post('/register', {
       name,
       username,
-      password
+      password,
+      role
     })
     return response.data
   } catch (error) {
@@ -75,5 +76,14 @@ export const getStaffPresensiByUserLogin = async () => {
     return response.data
   } catch (error) {
     console.log(error)
+  }
+}
+
+export const getNewAccessToken = async () => {
+  try {
+    const response = await axiosInstance.get('/refresh', { withCredentials: true })
+    return response.data
+  } catch (error) {
+    console.log(error.message)
   }
 }

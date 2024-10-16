@@ -10,10 +10,16 @@ import PresensiMenu from "./pages/PresensiMenu";
 import History from "./pages/History";
 import ErrorPage from "./pages/ErrorPages";
 import ShowPhoto from "./components/riwayat_presensi/ShowPhoto";
+import Register from "./pages/Register";
 
 export default function App() {
   const router = createBrowserRouter(
     [
+      {
+        path: "/register",
+        element: <Register />,
+        errorElement: <ErrorPage />
+      },
       {
         path: "/",
         element: <Login />,
@@ -25,6 +31,7 @@ export default function App() {
           <ProtectedRoute>
             <DashboardLayout />
           </ProtectedRoute>,
+        errorElement: <ErrorPage />,
         children: [
           {
             path: "/staff/home",

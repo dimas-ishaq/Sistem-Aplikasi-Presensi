@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginThunk, logoutThunk } from "../api";
+import { loginThunk, logoutThunk, getNewAccessTokenThunk } from "../api";
 import Cookies from "js-cookie";
 
 const authSlice = createSlice({
@@ -29,6 +29,18 @@ const authSlice = createSlice({
       .addCase(logoutThunk.fulfilled, (state) => {
         state.accessToken = null;
         state.isAuthenticated = false;
+      })
+      .addCase(getNewAccessTokenThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getNewAccessTokenThunk.fulfilled, (state, action) => {
+        state.accessToken = action.payload.token;
+        state.isAuthenticated = true;
+      })
+      .addCase(getNewAccessTokenThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
       });
   },
 });

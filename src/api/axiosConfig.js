@@ -21,35 +21,37 @@ instance.interceptors.request.use(
   }
 )
 
-instance.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
+// instance.interceptors.response.use(
+//   (response) => response,
+//   async (error) => {
+//     const originalRequest = error.config;
 
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
 
-      try {
-        // Panggil endpoint refresh token (cookie HttpOnly akan otomatis dikirim)
-        const { data } = await axios.get('/refresh', { withCredentials: true });
+//     if (error.response.status === 401 && !originalRequest._retry) {
+//       originalRequest._retry = true;
 
-        // Simpan accessToken baru
-        Cookies.set('accessToken', data.accessToken, {
-          expires: 1, secure: true, sameSite: "strict"
-        });
+//       try {
+//         // Panggil endpoint refresh token (cookie HttpOnly akan otomatis dikirim)
+//         const { data } = await instance.get('/refresh', { withCredentials: true });
+//         console.log(data)
 
-        // Perbarui request sebelumnya dengan accessToken yang baru
-        originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
+//         //Simpan accessToken baru
+//         Cookies.set('accessToken', data.token, {
+//           expires: 3 / (24 * 60), secure: true, sameSite: "strict"
+//         });
 
-        return instance(originalRequest);
-      } catch (err) {
-        console.error('Error refreshing token', err);
-        return Promise.reject(err);
-      }
-    }
+//         // Perbarui request sebelumnya dengan accessToken yang baru
+//         originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
 
-    return Promise.reject(error);
-  }
-);
+//         return instance(originalRequest);
+//       } catch (err) {
+
+//         return Promise.reject(err);
+//       }
+//     }
+
+//     return Promise.reject(error);
+//   }
+// );
 
 export default instance
