@@ -60,9 +60,8 @@ class StaffController {
       return res.status(401).json({ message: 'Invalid username or password' });
     }
 
-    const { accessToken, refreshToken } = await this._tokenManager.generateToken(staff.id);
+    const { accessToken, refreshToken } = this._tokenManager.generateToken(staff.id);
     await this._staffModel.saveToken(staff.id, refreshToken);
-    console.log(refreshToken)
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: true, // Pastikan menggunakan https untuk produk
@@ -76,15 +75,8 @@ class StaffController {
   }
 
   async getNewAccessToken(req, res) {
-    const refreshToken = req.cookies?.refreshToken
-    if (!refreshToken) {
-      return res.status(401).json({ message: 'Unauthorized' });
-    }
-    const staffId = await this._tokenManager.verifyRefreshToken(refreshToken);
-    if (!staffId) {
-      return res.status(401).json({ message: 'Unauthorized' });
-    }
-    const newAccessToken = await this._tokenManager.generateAccessToken(staffId);
+    const { id } = req.user;
+    const newAccessToken = this._tokenManager.generateAccessToken(id);
     return res.status(200).json({
       status: 'success',
       token: newAccessToken

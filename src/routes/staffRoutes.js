@@ -2,12 +2,13 @@ const express = require('express');
 const router = express.Router();
 const authentication = require('../middlewares/authentication');
 const StaffController = require('../controllers/StaffController');
+const validateRefreshToken = require('../middlewares/validateRefreshToken');
 
 const staff = new StaffController();
 
 router.post('/register', staff.register);
 router.post('/login', staff.login);
-router.get('/refresh', staff.getNewAccessToken);
+router.get('/refresh', validateRefreshToken, staff.getNewAccessToken);
 router.get('/logout', authentication, staff.logout);
 router.get('/user', authentication, staff.getStaff);
 router.post('/presensi', authentication, staff.addStaffPresensi);

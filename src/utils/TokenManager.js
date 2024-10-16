@@ -2,31 +2,23 @@ const jwt = require('jsonwebtoken');
 class TokenManager {
   constructor() { }
 
-  async generateToken(id) {
-    const accessToken = jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' });
+  generateToken(id) {
+    const accessToken = jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '180s' });
     const refreshToken = jwt.sign({ id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' });
 
     return { accessToken, refreshToken };
   }
 
-  async verifyAccessToken(accessToken) {
-    try {
-      return jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
-    } catch (error) {
-      throw new Error('Invalid or expired access token');
-    }
+  verifyAccessToken(accessToken) {
+    return jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
   }
 
-  async verifyRefreshToken(token) {
-    try {
-      return jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
-    } catch (error) {
-      throw new Error('Invalid or expired refresh token');
-    }
+  verifyRefreshToken(refreshToken) {
+    return jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
   }
 
-  async generateAccessToken(id) {
-    return jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '300s' });
+  generateAccessToken(id) {
+    return jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '180s' });
   }
 
 }
