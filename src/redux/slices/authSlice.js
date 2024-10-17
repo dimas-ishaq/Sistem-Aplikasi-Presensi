@@ -35,6 +35,7 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(getNewAccessTokenThunk.fulfilled, (state, action) => {
+        state.loading = false;
         state.accessToken = action.payload.token;
         state.isAuthenticated = true;
       })

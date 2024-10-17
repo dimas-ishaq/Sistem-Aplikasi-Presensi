@@ -1,18 +1,21 @@
 import Table from 'react-bootstrap/Table';
 import { DateTime } from 'luxon';
+import { Spinner } from 'react-bootstrap';
 export default function TablePresensi({ presensiHistory }) {
   return (
     <Table responsive>
       <thead>
         <tr>
           <th>No</th>
-          <th>Tanggal CheckIn</th>
-          <th>Tanggal Checkout</th>
+          <th>Waktu CheckIn</th>
+          <th>Waktu Checkout</th>
           <th>Status</th>
           <th>Alasan</th>
           <th>Durasi Kerja</th>
-          <th>Verifikasi Check-In</th>
-          <th>Verifikasi Check-Out</th>
+          <th>Status <br /> Check-In</th>
+          <th>Status <br /> Check-Out</th>
+          <th>Foto <br /> Check-In</th>
+          <th>Foto <br /> Check-Out</th>
         </tr>
       </thead>
       <tbody>
@@ -29,13 +32,13 @@ export default function TablePresensi({ presensiHistory }) {
             <td>
               <a href={`/staff/showPhoto/checkin/${item.id}`}
                 target="_blank" rel="noopener noreferrer">
-                Foto CheckIn
+                CheckIn
               </a>
             </td>
             <td>
               <a href={`/staff/showPhoto/checkout/${item.id}`}
                 target="_blank" rel="noopener noreferrer">
-                Foto Checkout
+                Checkout
               </a>
             </td>
           </tr>

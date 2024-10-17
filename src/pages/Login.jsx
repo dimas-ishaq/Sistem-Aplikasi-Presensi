@@ -4,30 +4,30 @@ import login from '../assets/login.svg';
 import FormLogin from '../components/login/FormLogin';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Spinner from 'react-bootstrap/Spinner';
+import { getNewAccessTokenThunk } from '../redux/api';
 
 export default function Login() {
   const { isAuthenticated, loading, error } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
 
   useEffect(() => {
-    const fetchUser = async () => {
-      if (isAuthenticated) {
-        navigate('/staff/home');
-      }
-
+    dispatch(getNewAccessTokenThunk());
+    if (isAuthenticated) {
+      navigate('/staff/home')
     }
-    fetchUser();
-    // 
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <Container fluid>
-      {loading ? <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner> :
+      {loading ?
+        <div className="d-flex flex-column align-items-center justify-content-center vh-100">
+          <Spinner animation="border" />
+        </div>
+        :
         <Row className='align-items-center vh-100'>
           <Col md={12} lg={6}>
             <div className="text-center">

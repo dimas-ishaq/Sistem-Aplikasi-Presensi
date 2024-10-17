@@ -1,19 +1,32 @@
 import { useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNewAccessTokenThunk } from '../redux/api';
+import { Spinner } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProtectedRoute({ children }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isAuthenticated } = useSelector(state => state.auth);
+  const { isAuthenticated, loading, error } = useSelector(state => state.auth);
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isAuthenticated && !loading) {
       dispatch(getNewAccessTokenThunk());
     }
-  }, [isAuthenticated, dispatch]);
+  }, [isAuthenticated, loading, dispatch, navigate]);
 
-  console.log('authenticated :', isAuthenticated);
 
-  return isAuthenticated ? children : <Navigate to="/" />;
+  if (loading) {
+    return (
+      <div className='d-flex flex-column justify-content-center align-items-center vh-100'>
+        <Spinner animation='border' />
+      </div>
+    );
+  }
+
+  if (isAuthenticated) {
+    return children;
+  }
+
+  return null; // Jika tidak loading dan tidak authenticated, tidak menampilkan apapun.
 }
