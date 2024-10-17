@@ -12,6 +12,7 @@ export default function ProtectedRoute({ children }) {
   useEffect(() => {
     if (!isAuthenticated && !loading) {
       dispatch(getNewAccessTokenThunk());
+      navigate('/')
     }
   }, [isAuthenticated, loading, dispatch, navigate]);
 
